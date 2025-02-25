@@ -10,9 +10,8 @@ const Header = () => {
             <div className="container mx-auto px-4 flex justify-between items-center">
                 <div className="relative">
                     <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600">
-                        Mi Portafolio
+                        JULIO PEREZ
                     </h1>
-                    <p className="text-green-500 text-sm">Desarrollador web</p>
                     <div className="absolute -left-2 -right-2 -bottom-2 -top-2 bg-green-500 opacity-10 blur-xl rounded-full"></div>
                 </div>
 

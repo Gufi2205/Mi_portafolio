@@ -3,6 +3,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const About = () => {
+    // Función para manejar la descarga del CV
+    const handleDownloadCV = () => {
+        const fileUrl = '/CV JFPY practicas preprofesionales Ing Software.pdf'; // Asegúrate de que el archivo esté en la carpeta public
+        const fileName = 'CV_Julio_Perez.pdf'; // Nombre que tendrá el archivo descargado
+
+        // Crear enlace temporal
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <section id="sobre-mi" className="py-5 bg-black relative overflow-hidden">
             {/* Elementos de fondo neón */}
@@ -35,8 +49,8 @@ const About = () => {
                             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-green-600 opacity-70 blur-md group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div className="rounded-full overflow-hidden w-64 h-64 border-2 border-green-500 shadow-xl relative z-10 group-hover:border-green-400 transition-colors duration-300">
                                 <img
-                                    src="/assets/profile.jpg"
-                                    alt="Tu Nombre"
+                                    src="/img/perfil.jpg"
+                                    alt="Julio Pérez"
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
                                         e.target.src = "https://via.placeholder.com/300";
@@ -84,10 +98,8 @@ const About = () => {
                                     <span className="group-hover:text-green-300 transition-colors">LinkedIn</span>
                                 </div>
                             </a>
-                            <a
-                                href="/assets/cv.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
+                                onClick={handleDownloadCV}
                                 className="group relative px-6 py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
                             >
                                 <div className="absolute inset-0 w-0 bg-green-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
@@ -99,7 +111,7 @@ const About = () => {
                                     </svg>
                                     <span className="group-hover:text-green-300 transition-colors">Descargar CV</span>
                                 </div>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </motion.div>

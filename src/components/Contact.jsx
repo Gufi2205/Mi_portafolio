@@ -138,7 +138,7 @@ const Contact = () => {
                             >
                                 <div className="text-left">
                                     <h3 className="text-xl font-bold text-gray-100">Julio Pérez</h3>
-                                    <p className="text-gray-400 text-sm">Desarrollador Full Stack</p>
+                                    <p className="text-gray-400 text-sm">Desarrollador web</p>
                                     <p className="text-green-400 text-sm mt-2">⏳ Respuesta en 24h</p>
                                 </div>
                             </motion.div>
@@ -200,7 +200,7 @@ const Contact = () => {
                                 className="pt-6 border-t border-gray-700/30"
                             >
                                 <h4 className="font-semibold mb-4 flex items-center gap-2 text-gray-100">
-                                    <span className="bg-green-600 text-white p-2 rounded-lg">🌐</span>
+
                                     Encuéntrame en
                                 </h4>
                                 <div className="flex gap-4">

@@ -1,0 +1,232 @@
+'use client'
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const Projects = () => {
+    const [activeCategory, setActiveCategory] = useState('todos');
+
+    const projects = [
+        {
+            id: 1,
+            title: 'De la selva su encanto',
+            description: 'Es un juego tematizado en los mitos de la selva peruana, en el cual shipi el shipibo sobrevive en la noche a los seres míticos.',
+            image: '/img/PANTALLAZO_DEMOSTRATIVO.webp',
+            demo: 'https://proyecto1-demo.ejemplo.com',
+            github: 'https://github.com/tunombre/ecommerce-project',
+            categories: ['frontend']
+        },
+        {
+            id: 2,
+            title: 'FamilyVets',
+            description: 'Es una pagina para gestionar citas para una veterinaria para evitar las colas y facilitar tiempos de demora ',
+            image: '/img/family.jpg',
+            demo: 'https://family-vets.netlify.app/#espec',
+            github: 'https://github.com/tunombre/admin-dashboard',
+            categories: ['PHP', 'frontend','HTML']
+        },
+        {
+            id: 3,
+            title: 'InkaChess ',
+            description: 'Es un juego de ajedrez controlado dediante la voz.',
+            image: '/img/Inkachess.jpg',
+            demo: 'https://inkachess.netlify.app/',
+            github: 'https://github.com/tunombre/blog-api',
+            categories: ['HTML']
+            
+        },
+        {
+            id: 4,
+            title: 'Gestor encriptador de contraseñas ',
+            description: 'Aplicación web que muestra pronósticos del clima para cualquier ciudad del mundo utilizando React y la API de OpenWeatherMap.',
+            image: '/img/gufiplay.jpg',
+            demo: 'https://proyecto4-demo.ejemplo.com',
+            github: 'https://github.com/tunombre/weather-app',
+            categories: ['Python']
+
+        },
+    ];
+
+    const categories = [
+        { id: 'todos', name: 'Todos' },
+        { id: 'frontend', name: 'Frontend' },
+        { id: 'HTML', name: 'HTML' },
+        { id: 'PHP', name: 'PHP' },
+        { id: 'Python', name: 'Python' },
+    ];
+
+    const filteredProjects = activeCategory === 'todos'
+        ? projects
+        : projects.filter(project => project.categories.includes(activeCategory));
+
+    // Animaciones
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: 'spring', stiffness: 120 }
+        },
+        exit: { opacity: 0, scale: 0.8 }
+    };
+
+    const buttonVariants = {
+        hover: { 
+            scale: 1.05,
+            boxShadow: '0 0 15px rgba(74, 222, 128, 0.5)'
+        },
+        tap: { scale: 0.95 },
+        selected: { 
+            scale: 1.1,
+            backgroundColor: '#10b981',
+            color: '#ffffff',
+            boxShadow: '0 0 20px rgba(74, 222, 128, 0.8)'
+        }
+    };
+
+    return (
+        <section id="proyectos" className="py-5 bg-black relative overflow-hidden">
+            {/* Elementos de fondo neón */}
+            <div className="absolute top-20 left-1/4 w-1 h-40 bg-green-500 opacity-70 blur-sm"></div>
+            <div className="absolute top-1/3 right-1/3 w-2 h-60 bg-green-400 opacity-50 blur-md"></div>
+            <div className="absolute bottom-1/4 left-20 w-3 h-3 rounded-full bg-green-300 opacity-70 blur-sm"></div>
+            <div className="absolute top-1/4 right-20 w-2 h-2 rounded-full bg-green-400 opacity-90 blur-sm"></div>
+            <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-1/2 h-40 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
+
+            <div className="container mx-auto px-4 relative z-10">
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-3xl font-bold text-center mb-12 text-white relative inline-block mx-auto"
+                >
+                    <span className="relative z-10">Mis Proyectos</span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
+                </motion.h2>
+
+                {/* Filtros de categorías */}
+                <motion.div 
+                    className="flex flex-wrap justify-center gap-3 mb-12"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    viewport={{ once: true }}
+                >
+                    {categories.map((category) => (
+                        <motion.button
+                            key={category.id}
+                            onClick={() => setActiveCategory(category.id)}
+                            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                                activeCategory === category.id
+                                    ? 'bg-green-600 text-white'
+                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                            } border border-green-500/30`}
+                            variants={buttonVariants}
+                            whileHover="hover"
+                            whileTap="tap"
+                            animate={activeCategory === category.id ? "selected" : ""}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                            {category.name}
+                        </motion.button>
+                    ))}
+                </motion.div>
+
+                {/* Proyectos - Tarjetas originales con nuevo diseño */}
+                <AnimatePresence mode='wait'>
+                    <motion.div
+                        key={activeCategory}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        {filteredProjects.map((project) => (
+                            <motion.div
+                                key={project.id}
+                                variants={itemVariants}
+                                className="relative group bg-gray-900 rounded-xl shadow-xl hover:shadow-2xl transition-all border border-gray-800 hover:border-green-400"
+                            >
+                                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                
+                                {/* Imagen del proyecto */}
+                                <div className="h-48 overflow-hidden rounded-t-xl relative">
+                                    <motion.img
+                                        src={project.image}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover"
+                                        initial={{ scale: 1 }}
+                                        whileHover={{ scale: 1.05 }}
+                                        transition={{ duration: 0.3 }}
+                                        onError={(e) => {
+                                            e.target.src = `https://via.placeholder.com/600x300/1f2937/ffffff?text=${project.title}`;
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                </div>
+
+                                {/* Contenido de la tarjeta */}
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold mb-3 text-gray-100">{project.title}</h3>
+                                    <p className="text-gray-400 mb-4">{project.description}</p>
+                                    
+                                    {/* Categorías */}
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {project.categories.map((category, index) => (
+                                            <span
+                                                key={index}
+                                                className="px-3 py-1 bg-gray-800 rounded-full text-sm text-green-300 border border-green-500/20"
+                                            >
+                                                {category}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Botones */}
+                                    <div className="flex gap-3">
+                                        <motion.a
+                                            href={project.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-center transition-all relative overflow-hidden"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity"></div>
+                                            Demo
+                                        </motion.a>
+                                        <motion.a
+                                            href={project.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 px-4 rounded-lg text-center transition-all border border-gray-700 relative overflow-hidden"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity"></div>
+                                            GitHub
+                                        </motion.a>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+        </section>
+    );
+};
+
+export default Projects;

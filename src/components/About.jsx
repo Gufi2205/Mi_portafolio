@@ -83,7 +83,7 @@ const About = () => {
                                 </div>
                             </a>
                             <a
-                                href="www.linkedin.com/in/julio-pérez-b687261a0"
+                                href="https://www.linkedin.com/in/julio-pérez-b687261a0"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group relative px-6 py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"

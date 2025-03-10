@@ -42,15 +42,33 @@ const Contact = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
             setIsSubmitting(true);
-            setTimeout(() => {
-                setIsSubmitting(false);
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                console.log('Respuesta del servidor:', response); // 🔍 Log 6
+
+                if (!response.ok) {
+                    throw new Error('Error en el servidor: ' + response.status);
+                }
+
                 setShowSuccessModal(true);
                 setFormData({ name: '', email: '', subject: '', message: '' });
-            }, 1500);
+
+            } catch (error) {
+                console.error('Error al enviar:', error); // 🔍 Log 7
+                alert('Error: ' + error.message);
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
@@ -239,8 +257,8 @@ const Contact = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.name
-                                                ? 'border-red-400 focus:ring-red-400/20'
-                                                : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                            ? 'border-red-400 focus:ring-red-400/20'
+                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. María García"
                                     />
@@ -257,8 +275,8 @@ const Contact = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.email
-                                                ? 'border-red-400 focus:ring-red-400/20'
-                                                : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                            ? 'border-red-400 focus:ring-red-400/20'
+                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="tucorreo@ejemplo.com"
                                     />
@@ -275,8 +293,8 @@ const Contact = () => {
                                         value={formData.subject}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.subject
-                                                ? 'border-red-400 focus:ring-red-400/20'
-                                                : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                            ? 'border-red-400 focus:ring-red-400/20'
+                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. Oportunidad de trabajo"
                                     />
@@ -293,8 +311,8 @@ const Contact = () => {
                                         onChange={handleChange}
                                         rows="5"
                                         className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.message
-                                                ? 'border-red-400 focus:ring-red-400/20'
-                                                : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                            ? 'border-red-400 focus:ring-red-400/20'
+                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Describe tu proyecto o consulta..."
                                     ></textarea>

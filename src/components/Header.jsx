@@ -56,7 +56,7 @@ const Header = () => {
                             <li key={item} className="border-b border-green-900 pb-2">
                                 <a
                                     href={`#${item}`}
-                                    className="block py-1 text-green-400 hover:text-green-300 transition-colors"
+                                    className="block py-1 text-white hover:text-green-300 transition-colors"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     {item.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}

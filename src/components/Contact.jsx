@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiMapPin, FiSend, FiX } from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaTwitter, FaPhoneAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaPhoneAlt } from 'react-icons/fa';
 
 const Contact = () => {
-    // Estados del formulario (mantener igual)
+    // Estados del formulario
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -17,13 +17,14 @@ const Contact = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-    // Manejadores de cambios y validación (mantener igual)
+    // Manejador de cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
         if (formErrors[name]) setFormErrors({ ...formErrors, [name]: '' });
     };
 
+    // Validación del formulario
     const validateForm = () => {
         const errors = {};
         if (!formData.name.trim()) errors.name = 'Nombre requerido';
@@ -42,6 +43,7 @@ const Contact = () => {
         return Object.keys(errors).length === 0;
     };
 
+    // Manejador de envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -54,8 +56,6 @@ const Contact = () => {
                     body: JSON.stringify(formData),
                 });
 
-                console.log('Respuesta del servidor:', response); // 🔍 Log 6
-
                 if (!response.ok) {
                     throw new Error('Error en el servidor: ' + response.status);
                 }
@@ -64,7 +64,7 @@ const Contact = () => {
                 setFormData({ name: '', email: '', subject: '', message: '' });
 
             } catch (error) {
-                console.error('Error al enviar:', error); // 🔍 Log 7
+                console.error('Error al enviar:', error);
                 alert('Error: ' + error.message);
             } finally {
                 setIsSubmitting(false);
@@ -72,6 +72,7 @@ const Contact = () => {
         }
     };
 
+    // Componente del modal de éxito
     const SuccessModal = () => (
         <AnimatePresence>
             {showSuccessModal && (
@@ -134,41 +135,30 @@ const Contact = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="max-w-6xl mx-auto text-center mb-16"
+                    className="max-w-6xl mx-auto text-center mb-8 md:mb-16"
                 >
-                    <h2 className="text-4xl font-bold text-gray-100 mb-4 relative inline-block">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-4 relative inline-block">
                         <span className="relative z-10">Trabajemos Juntos</span>
                         <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
                         <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
                     </h2>
-                    <p className="text-lg text-gray-400">Contáctame para propuestas, colaboraciones o cualquier consulta</p>
+                    <p className="text-base md:text-lg text-gray-400 px-2">Contáctame para propuestas, colaboraciones o cualquier consulta</p>
                 </motion.div>
 
                 <div className="max-w-7xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-800">
-                    <div className="grid md:grid-cols-2 gap-12 p-8 md:p-12">
-                        {/* Sección izquierda */}
-                        <div className="space-y-8 pr-8 relative">
-                            {/* Perfil y tiempo de respuesta */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                className="mb-12 flex items-center gap-6"
-                            >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 p-4 md:p-12">
+                        {/* Sección izquierda - Información de contacto */}
+                        <div className="space-y-6 md:space-y-8 md:pr-0 lg:pr-8">
+                            <motion.div className="mb-8 md:mb-12 flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
                                 <div className="text-left">
-                                    <h3 className="text-xl font-bold text-gray-100">Julio Pérez</h3>
+                                    <h3 className="text-lg md:text-xl font-bold text-gray-100">Julio Pérez</h3>
                                     <p className="text-gray-400 text-sm">Desarrollador web</p>
                                     <p className="text-green-400 text-sm mt-2">⏳ Respuesta en 24h</p>
                                 </div>
                             </motion.div>
 
-                            {/* Tarjeta de contacto */}
-                            <motion.div
-                                initial={{ x: -20, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                className="bg-gray-800/50 p-6 rounded-xl border border-gray-700/30 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-30 transition-opacity"></div>
-                                <div className="space-y-4">
+                            <motion.div className="bg-gray-800/50 p-4 md:p-6 rounded-xl border border-gray-700/30">
+                                <div className="space-y-3 md:space-y-4">
                                     <div className="flex items-center gap-3">
                                         <FiMail className="text-green-400 text-xl" />
                                         <h4 className="font-semibold text-gray-100">Información de Contacto</h4>
@@ -190,17 +180,10 @@ const Contact = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Tarjeta de ubicación */}
-                            <motion.div
-                                initial={{ x: -20, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                transition={{ delay: 0.1 }}
-                                className="bg-gray-800/50 p-6 rounded-xl border border-gray-700/30 relative overflow-hidden group"
-                            >
-                                <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-30 transition-opacity"></div>
-                                <div className="flex items-center gap-3 mb-4">
-                                    <FiMapPin className="text-green-400 text-xl" />
-                                    <h4 className="font-semibold text-gray-100">Ubicación</h4>
+                            <motion.div className="bg-gray-800/50 p-4 md:p-6 rounded-xl border border-gray-700/30">
+                                <div className="flex items-center gap-2 md:gap-3 mb-3">
+                                    <FiMapPin className="text-green-400 text-lg md:text-xl" />
+                                    <h4 className="font-semibold text-gray-100 text-base md:text-lg">Ubicación</h4>
                                 </div>
                                 <div className="space-y-2">
                                     <p className="flex items-center gap-2 text-gray-300">
@@ -210,28 +193,19 @@ const Contact = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Redes sociales */}
-                            <motion.div
-                                initial={{ x: -20, opacity: 0 }}
-                                whileInView={{ x: 0, opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="pt-6 border-t border-gray-700/30"
-                            >
-                                <h4 className="font-semibold mb-4 flex items-center gap-2 text-gray-100">
-
-                                    Encuéntrame en
-                                </h4>
-                                <div className="flex gap-4">
+                            <motion.div className="pt-4 md:pt-6 border-t border-gray-700/30">
+                                <h4 className="font-semibold mb-3 md:mb-4 text-sm md:text-base">Encuéntrame en</h4>
+                                <div className="flex gap-3 md:gap-4 justify-center md:justify-start">
                                     {[
-                                        { icon: <FaGithub className="w-6 h-6" />, link: 'https://github.com' },
-                                        { icon: <FaLinkedin className="w-6 h-6" />, link: 'https://linkedin.com' },
+                                        { icon: <FaGithub className="w-5 h-5 md:w-6 md:h-6" />, link: 'https://github.com' },
+                                        { icon: <FaLinkedin className="w-5 h-5 md:w-6 md:h-6" />, link: 'https://linkedin.com' },
                                     ].map((social, index) => (
                                         <a
                                             key={index}
                                             href={social.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-3 bg-gray-800 hover:bg-green-900/20 rounded-xl text-gray-400 hover:text-green-400 transition-all border border-gray-700/30 hover:border-green-400/30"
+                                            className="p-2 md:p-3 bg-gray-800 hover:bg-green-900/20 rounded-lg md:rounded-xl text-gray-400 hover:text-green-400 transition-all border border-gray-700/30 hover:border-green-400/30"
                                         >
                                             {social.icon}
                                         </a>
@@ -241,14 +215,10 @@ const Contact = () => {
                         </div>
 
                         {/* Sección derecha - Formulario */}
-                        <motion.div
-                            initial={{ x: 20, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            className="space-y-6"
-                        >
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                        <motion.div className="space-y-4 md:space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
                                         👤 Nombre completo
                                     </label>
                                     <input
@@ -256,17 +226,17 @@ const Contact = () => {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.name
+                                        className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.name
                                             ? 'border-red-400 focus:ring-red-400/20'
                                             : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. María García"
                                     />
-                                    {formErrors.name && <p className="text-red-400 text-sm mt-1">{formErrors.name}</p>}
+                                    {formErrors.name && <p className="text-red-400 text-xs md:text-sm mt-1">{formErrors.name}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
                                         📧 Correo electrónico
                                     </label>
                                     <input
@@ -274,17 +244,17 @@ const Contact = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.email
+                                        className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.email
                                             ? 'border-red-400 focus:ring-red-400/20'
                                             : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="tucorreo@ejemplo.com"
                                     />
-                                    {formErrors.email && <p className="text-red-400 text-sm mt-1">{formErrors.email}</p>}
+                                    {formErrors.email && <p className="text-red-400 text-xs md:text-sm mt-1">{formErrors.email}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
                                         ✏️ Asunto
                                     </label>
                                     <input
@@ -292,17 +262,17 @@ const Contact = () => {
                                         name="subject"
                                         value={formData.subject}
                                         onChange={handleChange}
-                                        className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.subject
+                                        className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.subject
                                             ? 'border-red-400 focus:ring-red-400/20'
                                             : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. Oportunidad de trabajo"
                                     />
-                                    {formErrors.subject && <p className="text-red-400 text-sm mt-1">{formErrors.subject}</p>}
+                                    {formErrors.subject && <p className="text-red-400 text-xs md:text-sm mt-1">{formErrors.subject}</p>}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">
+                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
                                         💬 Mensaje
                                     </label>
                                     <textarea
@@ -310,13 +280,13 @@ const Contact = () => {
                                         value={formData.message}
                                         onChange={handleChange}
                                         rows="5"
-                                        className={`w-full px-4 py-3 rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.message
+                                        className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.message
                                             ? 'border-red-400 focus:ring-red-400/20'
                                             : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Describe tu proyecto o consulta..."
                                     ></textarea>
-                                    {formErrors.message && <p className="text-red-400 text-sm mt-1">{formErrors.message}</p>}
+                                    {formErrors.message && <p className="text-red-400 text-xs md:text-sm mt-1">{formErrors.message}</p>}
                                 </div>
 
                                 <motion.button
@@ -324,12 +294,12 @@ const Contact = () => {
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white py-4 font-medium rounded-lg transition-all flex items-center justify-center gap-2 relative overflow-hidden"
+                                    className="w-full bg-gradient-to-r from-green-600 to-green-700 text-sm md:text-base py-3 md:py-4 font-medium rounded-lg flex items-center justify-center gap-2 relative overflow-hidden"
                                 >
                                     <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-10 transition-opacity"></div>
                                     {isSubmitting ? (
                                         <>
-                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <svg className="animate-spin h-4 w-4 md:h-5 md:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg>
@@ -337,7 +307,7 @@ const Contact = () => {
                                         </>
                                     ) : (
                                         <>
-                                            <FiSend className="w-5 h-5" />
+                                            <FiSend className="w-4 h-4 md:w-5 md:h-5" />
                                             Enviar Mensaje
                                         </>
                                     )}

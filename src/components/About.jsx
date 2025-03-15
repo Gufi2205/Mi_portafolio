@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const About = () => {
     // Función para manejar la descarga del CV
     const handleDownloadCV = () => {
-        const fileUrl = '/CV JFPY practicas preprofesionales Ing Software.pdf'; // Asegúrate de que el archivo esté en la carpeta public
+        const fileUrl = '/CV - Julio Perez.pdf'; // Asegúrate de que el archivo esté en la carpeta public
         const fileName = 'CV_Julio_Perez.pdf'; // Nombre que tendrá el archivo descargado
 
         // Crear enlace temporal

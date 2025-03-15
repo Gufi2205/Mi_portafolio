@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
+import Link from 'next/link'; // Importar Link
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,13 +28,12 @@ const Header = () => {
                     </button>
                 </div>
 
-                {/* Navegación para escritorio */}
                 <nav className="hidden md:block">
                     <ul className="flex space-x-8">
                         {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
                             <li key={item}>
-                                <a
-                                    href={`#${item}`}
+                                <Link
+                                    href={item === 'habilidades' ? '/skills' : `/#${item}`}
                                     className="relative group py-2 px-1 block"
                                 >
                                     <span className="text-white group-hover:text-green-400 transition-colors relative z-10">
@@ -41,32 +41,35 @@ const Header = () => {
                                     </span>
                                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 group-hover:w-full transition-all duration-300"></span>
                                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-400 opacity-50 blur-sm group-hover:w-full transition-all duration-500 delay-100"></span>
-                                </a>
+                                </Link>
                             </li>
                         ))}
                     </ul>
                 </nav>
             </div>
 
+
             {/* Menú móvil desplegable */}
-            {isMenuOpen && (
-                <div className="md:hidden bg-black/95 border-t border-green-900 px-4 py-4">
-                    <ul className="flex flex-col space-y-4">
-                        {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
-                            <li key={item} className="border-b border-green-900 pb-2">
-                                <a
-                                    href={`#${item}`}
-                                    className="block py-1 text-white hover:text-green-300 transition-colors"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    {item.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </header>
+            {
+                isMenuOpen && (
+                    <div className="md:hidden bg-black/95 border-t border-green-900 px-4 py-4">
+                        <ul className="flex flex-col space-y-4">
+                            {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
+                                <li key={item} className="border-b border-green-900 pb-2">
+                                    <a
+                                        href={`#${item}`}
+                                        className="block py-1 text-white hover:text-green-300 transition-colors"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {item.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
+        </header >
     );
 };
 

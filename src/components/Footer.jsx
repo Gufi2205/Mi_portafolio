@@ -6,7 +6,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-black text-gray-300 py-12 relative overflow-hidden">
+        <footer className="bg-black text-gray-300 py-8 md:py-12 relative overflow-hidden">
             {/* Borde neón superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent"></div>
 
@@ -20,15 +20,16 @@ const Footer = () => {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-center">
-                    <div className="mb-6 md:mb-0">
-                        <h2 className="text-2xl font-bold text-gray-100 mb-2 relative">
+                    <div className="mb-6 md:mb-0 text-center md:text-left">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-100 mb-2 relative">
                             Julio Felipe Perez Yañez
                             <span className="absolute -bottom-1 left-0 w-full h-px bg-green-400/50 blur-xs"></span>
                         </h2>
                         <p className="text-green-400">Desarrollador Web</p>
                     </div>
 
-                    <div className="flex flex-col md:flex-row md:space-x-12 space-y-6 md:space-y-0 mb-6 md:mb-0">
+                    {/* Modificado aquí: Cambiamos a grid en móvil y flex en desktop */}
+                    <div className="grid grid-cols-2 gap-8 w-full max-w-sm md:flex md:flex-row md:space-x-12 md:w-auto mb-6 md:mb-0">
                         <div className="relative">
                             <div className="absolute -inset-1 bg-green-500/10 rounded-lg blur-sm"></div>
                             <div className="relative">
@@ -67,7 +68,7 @@ const Footer = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="www.linkedin.com/in/julio-pérez-b687261a0"
+                                            href="https://www.linkedin.com/in/julio-pérez-b687261a0"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-gray-400 hover:text-green-400 transition-colors flex items-center group"
@@ -82,7 +83,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="border-t border-green-500/30 mt-8 pt-8 text-center md:text-left relative">
+                <div className="border-t border-green-500/30 mt-8 pt-8 text-center relative">
                     <div className="absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent"></div>
                     <p className="text-gray-400">
                         &copy; {currentYear} Julio Perez. Todos los derechos reservados.

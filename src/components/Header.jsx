@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import Link from 'next/link'; // Importar Link
+import Link from 'next/link';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +33,7 @@ const Header = () => {
                         {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
                             <li key={item}>
                                 <Link
-                                    href={item === 'habilidades' ? '/skills' : `/#${item}`}
+                                    href={`/#${item}`}
                                     className="relative group py-2 px-1 block"
                                 >
                                     <span className="text-white group-hover:text-green-400 transition-colors relative z-10">
@@ -48,28 +48,25 @@ const Header = () => {
                 </nav>
             </div>
 
-
             {/* Menú móvil desplegable */}
-            {
-                isMenuOpen && (
-                    <div className="md:hidden bg-black/95 border-t border-green-900 px-4 py-4">
-                        <ul className="flex flex-col space-y-4">
-                            {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
-                                <li key={item} className="border-b border-green-900 pb-2">
-                                    <a
-                                        href={`#${item}`}
-                                        className="block py-1 text-white hover:text-green-300 transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        {item.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )
-            }
-        </header >
+            {isMenuOpen && (
+                <div className="md:hidden bg-black/95 border-t border-green-900 px-4 py-4">
+                    <ul className="flex flex-col space-y-4">
+                        {['sobre-mi', 'habilidades', 'proyectos', 'contacto'].map((item) => (
+                            <li key={item} className="border-b border-green-900 pb-2">
+                                <a
+                                    href={`#${item}`}
+                                    className="block py-1 text-white hover:text-green-300 transition-colors"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {item.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </header>
     );
 };
 

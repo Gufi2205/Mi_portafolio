@@ -1,76 +1,75 @@
-'use client'
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiMail, FiMapPin, FiSend, FiX } from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaPhoneAlt } from 'react-icons/fa';
+"use client"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { FiMail, FiMapPin, FiSend, FiX } from "react-icons/fi"
+import { FaGithub, FaLinkedin, FaPhoneAlt } from "react-icons/fa"
 
 const Contact = () => {
     // Estados del formulario
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-    });
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+    })
 
-    const [formErrors, setFormErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [formErrors, setFormErrors] = useState({})
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showSuccessModal, setShowSuccessModal] = useState(false)
 
     // Manejador de cambios en los campos del formulario
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        if (formErrors[name]) setFormErrors({ ...formErrors, [name]: '' });
-    };
+        const { name, value } = e.target
+        setFormData({ ...formData, [name]: value })
+        if (formErrors[name]) setFormErrors({ ...formErrors, [name]: "" })
+    }
 
     // Validación del formulario
     const validateForm = () => {
-        const errors = {};
-        if (!formData.name.trim()) errors.name = 'Nombre requerido';
+        const errors = {}
+        if (!formData.name.trim()) errors.name = "Nombre requerido"
         if (!formData.email.trim()) {
-            errors.email = 'Email requerido';
+            errors.email = "Email requerido"
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            errors.email = 'Email inválido';
+            errors.email = "Email inválido"
         }
-        if (!formData.subject.trim()) errors.subject = 'Asunto requerido';
+        if (!formData.subject.trim()) errors.subject = "Asunto requerido"
         if (!formData.message.trim()) {
-            errors.message = 'Mensaje requerido';
+            errors.message = "Mensaje requerido"
         } else if (formData.message.length < 10) {
-            errors.message = 'Mínimo 10 caracteres';
+            errors.message = "Mínimo 10 caracteres"
         }
-        setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
+        setFormErrors(errors)
+        return Object.keys(errors).length === 0
+    }
 
     // Manejador de envío del formulario
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (validateForm()) {
-            setIsSubmitting(true);
+            setIsSubmitting(true)
 
             try {
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                const response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData),
-                });
+                })
 
                 if (!response.ok) {
-                    throw new Error('Error en el servidor: ' + response.status);
+                    throw new Error("Error en el servidor: " + response.status)
                 }
 
-                setShowSuccessModal(true);
-                setFormData({ name: '', email: '', subject: '', message: '' });
-
+                setShowSuccessModal(true)
+                setFormData({ name: "", email: "", subject: "", message: "" })
             } catch (error) {
-                console.error('Error al enviar:', error);
-                alert('Error: ' + error.message);
+                console.error("Error al enviar:", error)
+                alert("Error: " + error.message)
             } finally {
-                setIsSubmitting(false);
+                setIsSubmitting(false)
             }
         }
-    };
+    }
 
     // Componente del modal de éxito
     const SuccessModal = () => (
@@ -117,17 +116,10 @@ const Contact = () => {
                 </motion.div>
             )}
         </AnimatePresence>
-    );
+    )
 
     return (
-        <section id="contact" className="relative py-5 bg-black overflow-hidden">
-            {/* Elementos de fondo neón */}
-            <div className="absolute top-20 left-1/4 w-1 h-40 bg-green-500 opacity-70 blur-sm"></div>
-            <div className="absolute top-1/3 right-1/3 w-2 h-60 bg-green-400 opacity-50 blur-md"></div>
-            <div className="absolute bottom-1/4 left-20 w-3 h-3 rounded-full bg-green-300 opacity-70 blur-sm"></div>
-            <div className="absolute top-1/4 right-20 w-2 h-2 rounded-full bg-green-400 opacity-90 blur-sm"></div>
-            <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-1/2 h-40 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
-
+        <section id="contact" className="relative py-5 overflow-hidden">
             <SuccessModal />
 
             <div className="container mx-auto px-4 relative z-10">
@@ -142,7 +134,9 @@ const Contact = () => {
                         <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
                         <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
                     </h2>
-                    <p className="text-base md:text-lg text-gray-400 px-2">Contáctame para propuestas, colaboraciones o cualquier consulta</p>
+                    <p className="text-base md:text-lg text-gray-400 px-2">
+                        Contáctame para propuestas, colaboraciones o cualquier consulta
+                    </p>
                 </motion.div>
 
                 <div className="max-w-7xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-800">
@@ -172,7 +166,10 @@ const Contact = () => {
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <FiMail className="text-gray-400" />
-                                            <a href="mailto:julio2205perez@gmail.com" className="text-gray-300 hover:text-green-400 transition-colors">
+                                            <a
+                                                href="mailto:julio2205perez@gmail.com"
+                                                className="text-gray-300 hover:text-green-400 transition-colors"
+                                            >
                                                 julio2205perez@gmail.com
                                             </a>
                                         </div>
@@ -197,8 +194,8 @@ const Contact = () => {
                                 <h4 className="font-semibold mb-3 md:mb-4 text-sm md:text-base">Encuéntrame en</h4>
                                 <div className="flex gap-3 md:gap-4 justify-center md:justify-start">
                                     {[
-                                        { icon: <FaGithub className="w-5 h-5 md:w-6 md:h-6" />, link: 'https://github.com' },
-                                        { icon: <FaLinkedin className="w-5 h-5 md:w-6 md:h-6" />, link: 'https://linkedin.com' },
+                                        { icon: <FaGithub className="w-5 h-5 md:w-6 md:h-6" />, link: "https://github.com" },
+                                        { icon: <FaLinkedin className="w-5 h-5 md:w-6 md:h-6" />, link: "https://linkedin.com" },
                                     ].map((social, index) => (
                                         <a
                                             key={index}
@@ -227,8 +224,8 @@ const Contact = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.name
-                                            ? 'border-red-400 focus:ring-red-400/20'
-                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                                ? "border-red-400 focus:ring-red-400/20"
+                                                : "border-gray-700 focus:border-green-500 focus:ring-green-400/20"
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. María García"
                                     />
@@ -245,8 +242,8 @@ const Contact = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.email
-                                            ? 'border-red-400 focus:ring-red-400/20'
-                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                                ? "border-red-400 focus:ring-red-400/20"
+                                                : "border-gray-700 focus:border-green-500 focus:ring-green-400/20"
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="tucorreo@ejemplo.com"
                                     />
@@ -254,17 +251,15 @@ const Contact = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
-                                        ✏️ Asunto
-                                    </label>
+                                    <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">✏️ Asunto</label>
                                     <input
                                         type="text"
                                         name="subject"
                                         value={formData.subject}
                                         onChange={handleChange}
                                         className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.subject
-                                            ? 'border-red-400 focus:ring-red-400/20'
-                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                                ? "border-red-400 focus:ring-red-400/20"
+                                                : "border-gray-700 focus:border-green-500 focus:ring-green-400/20"
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Ej. Oportunidad de trabajo"
                                     />
@@ -281,8 +276,8 @@ const Contact = () => {
                                         onChange={handleChange}
                                         rows="5"
                                         className={`w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base rounded-lg bg-gray-800 border focus:ring-2 ${formErrors.message
-                                            ? 'border-red-400 focus:ring-red-400/20'
-                                            : 'border-gray-700 focus:border-green-500 focus:ring-green-400/20'
+                                                ? "border-red-400 focus:ring-red-400/20"
+                                                : "border-gray-700 focus:border-green-500 focus:ring-green-400/20"
                                             } text-gray-300 placeholder-gray-500`}
                                         placeholder="Describe tu proyecto o consulta..."
                                     ></textarea>
@@ -299,9 +294,25 @@ const Contact = () => {
                                     <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-10 transition-opacity"></div>
                                     {isSubmitting ? (
                                         <>
-                                            <svg className="animate-spin h-4 w-4 md:h-5 md:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            <svg
+                                                className="animate-spin h-4 w-4 md:h-5 md:w-5 text-white"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                ></circle>
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                ></path>
                                             </svg>
                                             Enviando...
                                         </>
@@ -318,7 +329,7 @@ const Contact = () => {
                 </div>
             </div>
         </section>
-    );
-};
+    )
+}
 
 export default Contact;

@@ -1,82 +1,81 @@
-'use client'
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Modal from './modal';
+"use client"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import Modal from "./modal"
 
 const Projects = () => {
-    const [activeCategory, setActiveCategory] = useState('todos');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [currentProject, setCurrentProject] = useState('');
+    const [activeCategory, setActiveCategory] = useState("todos")
+    const [modalOpen, setModalOpen] = useState(false)
+    const [currentProject, setCurrentProject] = useState("")
 
     const handleProjectLink = (project, linkType) => {
         // Si es el proyecto "De la selva su encanto", mostrar el modal
-        if (project.title === 'De la selva su encanto') {
-            setCurrentProject(project.title);
-            setModalOpen(true);
-            return;
+        if (project.title === "De la selva su encanto") {
+            setCurrentProject(project.title)
+            setModalOpen(true)
+            return
         }
 
         // Para otros proyectos, abrir el enlace normalmente
-        const url = linkType === 'demo' ? project.demo : project.github;
+        const url = linkType === "demo" ? project.demo : project.github
         if (url) {
-            window.open(url, '_blank');
+            window.open(url, "_blank")
         }
-    };
+    }
 
     const projects = [
         {
             id: 1,
-            title: 'De la selva su encanto',
-            description: 'Es un juego tematizado en los mitos de la selva peruana, en el cual shipi el shipibo sobrevive en la noche a los seres míticos.',
-            image: '/img/PANTALLAZO_DEMOSTRATIVO.webp',
-            demo: '',
-            github: '',
-            categories: ['Godot']
+            title: "De la selva su encanto",
+            description:
+                "Es un juego tematizado en los mitos de la selva peruana, en el cual shipi el shipibo sobrevive en la noche a los seres míticos.",
+            image: "/img/PANTALLAZO_DEMOSTRATIVO.webp",
+            demo: "",
+            github: "",
+            categories: ["Godot"],
         },
         {
             id: 2,
-            title: 'FamilyVets',
-            description: 'Es una pagina para gestionar citas para una veterinaria para evitar las colas y facilitar tiempos de demora ',
-            image: '/img/family.jpg',
-            demo: 'https://family-vets.netlify.app/#espec',
-            github: 'https://github.com/Gufi2205/FamilyVets.git',
-            categories: ['PHP', 'HTML', 'Javascript', 'CSS']
+            title: "FamilyVets",
+            description:
+                "Es una pagina para gestionar citas para una veterinaria para evitar las colas y facilitar tiempos de demora ",
+            image: "/img/family.jpg",
+            demo: "https://family-vets.netlify.app/#espec",
+            github: "https://github.com/Gufi2205/FamilyVets.git",
+            categories: ["PHP", "HTML", "Javascript", "CSS"],
         },
         {
             id: 3,
-            title: 'InkaChess ',
-            description: 'Es un juego de ajedrez controlado dediante la voz.',
-            image: '/img/Inkachess.jpg',
-            demo: 'https://inkachess.netlify.app/',
-            github: 'https://github.com/NIKOLLE8/INKA_CHESS.git',
-            categories: ['HTML', 'Javascript', 'CSS']
-
+            title: "InkaChess ",
+            description: "Es un juego de ajedrez controlado dediante la voz.",
+            image: "/img/Inkachess.jpg",
+            demo: "https://inkachess.netlify.app/",
+            github: "https://github.com/NIKOLLE8/INKA_CHESS.git",
+            categories: ["HTML", "Javascript", "CSS"],
         },
         {
             id: 4,
-            title: 'gufiplay ',
-            description: 'Es un programa que te permite descargar canciones en diferentes formatos desde un link de youtube.',
-            image: '/img/gufiplay.jpg',
-            demo: 'https://www.mediafire.com/file/e7juhmasm0oegl4/Descargador.exe/file',
-            github: 'https://github.com/Gufi2205/gufiplay.git',
-            categories: ['Python']
-
+            title: "gufiplay ",
+            description: "Es un programa que te permite descargar canciones en diferentes formatos desde un link de youtube.",
+            image: "/img/gufiplay.jpg",
+            demo: "https://www.mediafire.com/file/e7juhmasm0oegl4/Descargador.exe/file",
+            github: "https://github.com/Gufi2205/gufiplay.git",
+            categories: ["Python"],
         },
-    ];
+    ]
 
     const categories = [
-        { id: 'todos', name: 'Todos' },
-        { id: 'Godot', name: 'Godot' },
-        { id: 'HTML', name: 'HTML' },
-        { id: 'CSS', name: 'CSS' },
-        { id: 'Javascript', name: 'Javascript' },
-        { id: 'PHP', name: 'PHP' },
-        { id: 'Python', name: 'Python' },
-    ];
+        { id: "todos", name: "Todos" },
+        { id: "Godot", name: "Godot" },
+        { id: "HTML", name: "HTML" },
+        { id: "CSS", name: "CSS" },
+        { id: "Javascript", name: "Javascript" },
+        { id: "PHP", name: "PHP" },
+        { id: "Python", name: "Python" },
+    ]
 
-    const filteredProjects = activeCategory === 'todos'
-        ? projects
-        : projects.filter(project => project.categories.includes(activeCategory));
+    const filteredProjects =
+        activeCategory === "todos" ? projects : projects.filter((project) => project.categories.includes(activeCategory))
 
     // Animaciones
     const containerVariants = {
@@ -85,50 +84,39 @@ const Projects = () => {
             opacity: 1,
             transition: {
                 staggerChildren: 0.15,
-                delayChildren: 0.2
-            }
-        }
-    };
+                delayChildren: 0.2,
+            },
+        },
+    }
 
     const itemVariants = {
         hidden: { opacity: 0, y: 30 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { type: 'spring', stiffness: 120 }
+            transition: { type: "spring", stiffness: 120 },
         },
-        exit: { opacity: 0, scale: 0.8 }
-    };
+        exit: { opacity: 0, scale: 0.8 },
+    }
 
     const buttonVariants = {
         hover: {
             scale: 1.05,
-            boxShadow: '0 0 15px rgba(74, 222, 128, 0.5)'
+            boxShadow: "0 0 15px rgba(74, 222, 128, 0.5)",
         },
         tap: { scale: 0.95 },
         selected: {
             scale: 1.1,
-            backgroundColor: '#10b981',
-            color: '#ffffff',
-            boxShadow: '0 0 20px rgba(74, 222, 128, 0.8)'
-        }
-    };
+            backgroundColor: "#10b981",
+            color: "#ffffff",
+            boxShadow: "0 0 20px rgba(74, 222, 128, 0.8)",
+        },
+    }
 
     return (
-        <section id="proyectos" className="py-5 bg-black relative overflow-hidden">
+        <section id="proyectos" className="py-5 relative overflow-hidden">
             {/* Modal de proyecto no disponible */}
-            <Modal
-                isOpen={modalOpen}
-                onClose={() => setModalOpen(false)}
-                projectName={currentProject}
-            />
-
-            {/* Elementos de fondo neón */}
-            <div className="absolute top-20 left-1/4 w-1 h-40 bg-green-500 opacity-70 blur-sm"></div>
-            <div className="absolute top-1/3 right-1/3 w-2 h-60 bg-green-400 opacity-50 blur-md"></div>
-            <div className="absolute bottom-1/4 left-20 w-3 h-3 rounded-full bg-green-300 opacity-70 blur-sm"></div>
-            <div className="absolute top-1/4 right-20 w-2 h-2 rounded-full bg-green-400 opacity-90 blur-sm"></div>
-            <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-1/2 h-40 bg-green-500 opacity-10 blur-3xl rounded-full"></div>
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} projectName={currentProject} />
 
             <div className="container mx-auto px-4 relative z-10">
                 <motion.h2
@@ -155,14 +143,14 @@ const Projects = () => {
                             key={category.id}
                             onClick={() => setActiveCategory(category.id)}
                             className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${activeCategory === category.id
-                                    ? 'bg-green-600 text-white'
-                                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                                    ? "bg-green-600 text-white"
+                                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                                 } border border-green-500/30`}
                             variants={buttonVariants}
                             whileHover="hover"
                             whileTap="tap"
                             animate={activeCategory === category.id ? "selected" : ""}
-                            transition={{ type: 'spring', stiffness: 300 }}
+                            transition={{ type: "spring", stiffness: 300 }}
                         >
                             {category.name}
                         </motion.button>
@@ -170,7 +158,7 @@ const Projects = () => {
                 </motion.div>
 
                 {/* Proyectos - Tarjetas originales con nuevo diseño */}
-                <AnimatePresence mode='wait'>
+                <AnimatePresence mode="wait">
                     <motion.div
                         key={activeCategory}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -197,7 +185,7 @@ const Projects = () => {
                                         whileHover={{ scale: 1.05 }}
                                         transition={{ duration: 0.3 }}
                                         onError={(e) => {
-                                            e.target.src = `https://via.placeholder.com/600x300/1f2937/ffffff?text=${project.title}`;
+                                            e.target.src = `https://via.placeholder.com/600x300/1f2937/ffffff?text=${project.title}`
                                         }}
                                     />
                                     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -223,7 +211,7 @@ const Projects = () => {
                                     {/* Botones */}
                                     <div className="flex gap-3">
                                         <motion.button
-                                            onClick={() => handleProjectLink(project, 'demo')}
+                                            onClick={() => handleProjectLink(project, "demo")}
                                             className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-center transition-all relative overflow-hidden"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -232,7 +220,7 @@ const Projects = () => {
                                             Demo
                                         </motion.button>
                                         <motion.button
-                                            onClick={() => handleProjectLink(project, 'github')}
+                                            onClick={() => handleProjectLink(project, "github")}
                                             className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 px-4 rounded-lg text-center transition-all border border-gray-700 relative overflow-hidden"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -248,7 +236,8 @@ const Projects = () => {
                 </AnimatePresence>
             </div>
         </section>
-    );
-};
+    )
+}
 
 export default Projects;
+

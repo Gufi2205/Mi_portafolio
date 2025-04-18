@@ -54,7 +54,7 @@ const About = () => {
                     </div>
 
                     <div className="md:w-2/3 md:pl-12">
-                        <p className="text-lg leading-relaxed mb-8 text-gray-300">
+                        <p className="text-lg leading-relaxed mb-8 text-gray-300 text-justify">
                             Ingeniero de software con experiencia en desarrollo web utilizando React, Next.js y Tailwind CSS, así como
                             en soluciones en la nube con Google Cloud Platform. Especialista en automatización de procesos con Python,
                             optimizando flujos de trabajo y mejorando la eficiencia operativa. Apasionado por crear soluciones

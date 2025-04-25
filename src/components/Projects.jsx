@@ -26,7 +26,7 @@ const Projects = () => {
     const projects = [
         {
             id: 1,
-            title: "De la selva su encanto",
+            title: "De la selva su encantoo",
             description:
                 "Es un juego tematizado en los mitos de la selva peruana, en el cual shipi el shipibo sobrevive en la noche a los seres míticos.",
             image: "/img/PANTALLAZO_DEMOSTRATIVO.webp",

@@ -143,8 +143,8 @@ const Projects = () => {
                             key={category.id}
                             onClick={() => setActiveCategory(category.id)}
                             className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${activeCategory === category.id
-                                    ? "bg-green-600 text-white"
-                                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                                ? "bg-green-600 text-white"
+                                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                                 } border border-green-500/30`}
                             variants={buttonVariants}
                             whileHover="hover"

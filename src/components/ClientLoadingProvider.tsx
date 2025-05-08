@@ -1,10 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import LoadingScreen from './LoadingScreen';
 
-export default function ClientLoadingProvider({ children }) {
+interface ClientLoadingProviderProps {
+  children: ReactNode;
+}
+
+export default function ClientLoadingProvider({ children }: ClientLoadingProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isNavigating, setIsNavigating] = useState(false);
   const pathname = usePathname();

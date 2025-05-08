@@ -19,7 +19,8 @@ export default function ClientLoadingProvider({ children }) {
       
       return () => clearTimeout(timer);
     }
-  }, []); // Solo se ejecuta en el montaje inicial
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]); // Añadir isLoading como dependencia
 
   // Para cambios de ruta, usar un enfoque más rápido
   useEffect(() => {

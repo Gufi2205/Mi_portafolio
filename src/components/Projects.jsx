@@ -114,7 +114,7 @@ const Projects = () => {
     }
 
     return (
-        <section id="proyectos" className="py-5 relative overflow-hidden">
+        <section id="proyectos" className="relative overflow-hidden">
             {/* Modal de proyecto no disponible */}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} projectName={currentProject} />
 
@@ -123,11 +123,11 @@ const Projects = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-bold text-center mb-12 text-white relative inline-block mx-auto"
+                    className="text-3xl font-bold text-center mb-12 text-white relative block w-full mx-auto"
                 >
-                    <span className="relative z-10">Mis Proyectos</span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
+                    <span className="relative z-10 mx-auto block w-fit">Mis Proyectos</span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-48 mx-auto"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-48 mx-auto"></span>
                 </motion.h2>
 
                 {/* Filtros de categorías */}

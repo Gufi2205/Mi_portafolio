@@ -55,27 +55,27 @@ const Skills = () => {
     }
 
     return (
-        <section id="habilidades" className="py-5 relative overflow-hidden">
+        <section id="habilidades" className="relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-bold text-center mb-16 text-white relative inline-block mx-auto"
+                    className="text-3xl font-bold text-center mb-16 text-white relative block w-full mx-auto"
                 >
-                    <span className="relative z-10">Mis Habilidades</span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
+                    <span className="relative z-10 mx-auto block w-fit">Mis Habilidades</span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-48 mx-auto"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-48 mx-auto"></span>
                 </motion.h2>
-
+                
                 <div className="mb-12">
                     <motion.h3
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-2xl font-semibold mb-6 text-center text-green-400"
+                        className="text-2xl font-semibold mb-6 text-center text-green-400 w-full"
                     >
-                        Frontend
+                        <span className="relative mx-auto block w-fit">Frontend</span>
                     </motion.h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">{renderSkillCards(frontendSkills)}</div>
                 </div>
@@ -85,9 +85,9 @@ const Skills = () => {
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-2xl font-semibold mb-6 text-center text-green-400"
+                        className="text-2xl font-semibold mb-6 text-center text-green-400 w-full"
                     >
-                        Backend
+                        <span className="relative mx-auto block w-fit">Backend</span>
                     </motion.h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                         {renderSkillCards(backendSkills)}
@@ -99,9 +99,9 @@ const Skills = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-2xl font-semibold mb-6 text-center text-green-400"
+                        className="text-2xl font-semibold mb-6 text-center text-green-400 w-full"
                     >
-                        Herramientas
+                        <span className="relative mx-auto block w-fit">Herramientas</span>
                     </motion.h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                         {renderSkillCards(toolsSkills)}

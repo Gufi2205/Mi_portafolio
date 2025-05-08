@@ -18,17 +18,17 @@ const About = () => {
     }
 
     return (
-        <section id="sobre-mi" className="py-5 relative overflow-hidden">
+        <section id="sobre-mi" className="relative overflow-hidden">
             <div className="container mx-auto px-4 relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-3xl font-bold text-center mb-16 text-white relative inline-block mx-auto"
+                    className="text-3xl font-bold text-center mb-16 text-white relative block w-full mx-auto"
                 >
-                    <span className="relative z-10">Sobre Mí</span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
+                    <span className="relative z-10 mx-auto block w-fit">Sobre Mí</span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-32 mx-auto"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-32 mx-auto"></span>
                 </motion.h2>
 
                 <motion.div
@@ -145,5 +145,5 @@ const About = () => {
     )
 }
 
-export default About; 
+export default About;
 

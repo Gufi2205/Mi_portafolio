@@ -12,33 +12,9 @@ export default function Home() {
       {/* Sección de Encabezado */}
       <Header />
 
-      {/* Secciones con contenedores consistentes */}
-      <section id="sobre-mi" className="relative py-20 overflow-hidden">
-        <div className="container mx-auto px-0 relative z-10">
-          <About />
-        </div>
-      </section>
+      {/* Sección de Acerca de */}
+      <About />
 
-      <section id="habilidades" className="relative py-20 overflow-hidden backdrop-blur-sm">
-        <div className="container mx-auto px-0 relative z-10">
-          <Skills />
-        </div>
-      </section>
-
-      <section id="proyectos" className="relative py-20 overflow-hidden">
-        <div className="container mx-auto px-0 relative z-10">
-          <Projects />
-        </div>
-      </section>
-
-      <section id="contacto" className="relative py-20 overflow-hidden backdrop-blur-sm">
-        <div className="container mx-auto px-0 relative z-10">
-          <Contact />
-        </div>
-      </section>
-
-      {/* Pie de página */}
-      <Footer />
     </main>
   )
 }

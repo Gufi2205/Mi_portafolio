@@ -119,7 +119,7 @@ const Contact = () => {
     )
 
     return (
-        <section id="contact" className="relative py-5 overflow-hidden">
+        <section id="contact" className="relative overflow-hidden">
             <SuccessModal />
 
             <div className="container mx-auto px-4 relative z-10">
@@ -127,12 +127,12 @@ const Contact = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="max-w-6xl mx-auto text-center mb-8 md:mb-16"
+                    className="max-w-6xl mx-auto text-center mb-6 md:mb-10"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-4 relative inline-block">
-                        <span className="relative z-10">Trabajemos Juntos</span>
-                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"></span>
-                        <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-3 relative block w-full mx-auto">
+                        <span className="relative z-10 mx-auto block w-fit">Trabajemos Juntos</span>
+                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-48 mx-auto"></span>
+                        <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-48 mx-auto"></span>
                     </h2>
                     <p className="text-base md:text-lg text-gray-400 px-2">
                         Contáctame para propuestas, colaboraciones o cualquier consulta
@@ -140,24 +140,24 @@ const Contact = () => {
                 </motion.div>
 
                 <div className="max-w-7xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-800">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 p-4 md:p-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 p-3 md:p-8">
                         {/* Sección izquierda - Información de contacto */}
-                        <div className="space-y-6 md:space-y-8 md:pr-0 lg:pr-8">
-                            <motion.div className="mb-8 md:mb-12 flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+                        <div className="space-y-4 md:space-y-6 md:pr-0 lg:pr-6">
+                            <motion.div className="mb-4 md:mb-8 flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
                                 <div className="text-left">
                                     <h3 className="text-lg md:text-xl font-bold text-gray-100">Julio Pérez</h3>
                                     <p className="text-gray-400 text-sm">Desarrollador web</p>
-                                    <p className="text-green-400 text-sm mt-2">⏳ Respuesta en 24h</p>
+                                    <p className="text-green-400 text-sm mt-1">⏳ Respuesta en 24h</p>
                                 </div>
                             </motion.div>
 
-                            <motion.div className="bg-gray-800/50 p-4 md:p-6 rounded-xl border border-gray-700/30">
-                                <div className="space-y-3 md:space-y-4">
+                            <motion.div className="bg-gray-800/50 p-3 md:p-4 rounded-xl border border-gray-700/30">
+                                <div className="space-y-2 md:space-y-3">
                                     <div className="flex items-center gap-3">
                                         <FiMail className="text-green-400 text-xl" />
                                         <h4 className="font-semibold text-gray-100">Información de Contacto</h4>
                                     </div>
-                                    <div className="space-y-3">
+                                    <div className="space-y-2">
                                         <div className="flex items-center gap-3">
                                             <FaPhoneAlt className="text-gray-400" />
                                             <a href="tel:+51987370254" className="text-gray-300 hover:text-green-400 transition-colors">
@@ -177,7 +177,7 @@ const Contact = () => {
                                 </div>
                             </motion.div>
 
-                            <motion.div className="bg-gray-800/50 p-4 md:p-6 rounded-xl border border-gray-700/30">
+                            <motion.div className="bg-gray-800/50 p-3 md:p-4 rounded-xl border border-gray-700/30">
                                 <div className="flex items-center gap-2 md:gap-3 mb-3">
                                     <FiMapPin className="text-green-400 text-lg md:text-xl" />
                                     <h4 className="font-semibold text-gray-100 text-base md:text-lg">Ubicación</h4>
@@ -190,8 +190,8 @@ const Contact = () => {
                                 </div>
                             </motion.div>
 
-                            <motion.div className="pt-4 md:pt-6 border-t border-gray-700/30">
-                                <h4 className="font-semibold mb-3 md:mb-4 text-sm md:text-base">Encuéntrame en</h4>
+                            <motion.div className="pt-3 md:pt-4 border-t border-gray-700/30">
+                                <h4 className="font-semibold mb-2 md:mb-3 text-sm md:text-base text-white">Encuéntrame en</h4>
                                 <div className="flex gap-3 md:gap-4 justify-center md:justify-start">
                                     {[
                                         { icon: <FaGithub className="w-5 h-5 md:w-6 md:h-6" />, link: "https://github.com" },
@@ -212,8 +212,8 @@ const Contact = () => {
                         </div>
 
                         {/* Sección derecha - Formulario */}
-                        <motion.div className="space-y-4 md:space-y-6">
-                            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                        <motion.div className="space-y-3 md:space-y-4">
+                            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
                                 <div>
                                     <label className="block text-sm md:text-base font-medium mb-1 md:mb-2 text-gray-300">
                                         👤 Nombre completo

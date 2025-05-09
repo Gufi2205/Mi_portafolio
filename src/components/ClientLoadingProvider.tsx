@@ -3,16 +3,35 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import LoadingScreen from './LoadingScreen';
+import { Suspense } from 'react';
 
 interface ClientLoadingProviderProps {
   children: ReactNode;
 }
 
+// Componente separado para usar useSearchParams
+function NavigationStateHandler({ onNavigate, isLoading }: { onNavigate: (value: boolean) => void, isLoading: boolean }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!isLoading) {
+      onNavigate(true);
+      // Tiempo muy corto para transiciones entre páginas
+      const timer = setTimeout(() => {
+        onNavigate(false);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, searchParams, isLoading, onNavigate]);
+
+  return null;
+}
+
 export default function ClientLoadingProvider({ children }: ClientLoadingProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isNavigating, setIsNavigating] = useState(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     // Mostrar pantalla de carga solo en la carga inicial
@@ -26,19 +45,6 @@ export default function ClientLoadingProvider({ children }: ClientLoadingProvide
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]); // Añadir isLoading como dependencia
 
-  // Para cambios de ruta, usar un enfoque más rápido
-  useEffect(() => {
-    if (!isLoading) {
-      setIsNavigating(true);
-      // Tiempo muy corto para transiciones entre páginas
-      const timer = setTimeout(() => {
-        setIsNavigating(false);
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [pathname, searchParams, isLoading]);
-
   return (
     <>
       {isLoading && <LoadingScreen />}
@@ -47,6 +53,9 @@ export default function ClientLoadingProvider({ children }: ClientLoadingProvide
           <div className="h-full bg-green-400 animate-[loading_0.5s_ease-in-out_infinite]"></div>
         </div>
       )}
+      <Suspense fallback={null}>
+        <NavigationStateHandler onNavigate={setIsNavigating} isLoading={isLoading} />
+      </Suspense>
       {children}
     </>
   );

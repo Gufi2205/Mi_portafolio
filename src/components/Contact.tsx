@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
     const [name, setName] = useState('');
@@ -42,9 +42,8 @@ const Contact = () => {
                 {/* Columna izquierda - Información de contacto */}
                 <div className="w-full md:w-1/3 bg-[#0d1117] p-8">
                     <div className="mb-8">
-                        <h3 className="text-xl font-bold text-white mb-1">Tu Nombre</h3>
+                        <h3 className="text-xl font-bold text-white mb-1">Julio Perez</h3>
                         <p className="text-gray-400">Desarrollador web</p>
-                        <p className="text-yellow-400 text-sm mt-2">✨ Respuesta en 24h</p>
                     </div>
 
                     <div className="mb-8">
@@ -53,10 +52,6 @@ const Contact = () => {
                             <div className="flex items-center text-gray-300">
                                 <FaPhone className="mr-3 text-gray-400" />
                                 <span>+51 987 654 321</span>
-                            </div>
-                            <div className="flex items-center text-gray-300">
-                                <FaEnvelope className="mr-3 text-gray-400" />
-                                <span>tucorreo@ejemplo.com</span>
                             </div>
                         </div>
                     </div>
@@ -86,12 +81,6 @@ const Contact = () => {
 
                 {/* Columna derecha - Formulario */}
                 <div className="w-full md:w-2/3 p-8">
-                    {/* Ya está comentado, pero lo dejamos así para claridad */}
-                    {/* <Suspense fallback={<div>Cargando estado...</div>}>
-                        <ContactFormInner />
-                    </Suspense> */}
-
-                    {/* Mostramos los mensajes de estado directamente desde el estado local */}
                     {submitStatus === 'success' && (
                         <div className="mb-4 p-3 bg-green-900/30 text-green-400 rounded">
                             ¡Mensaje enviado con éxito! Te responderé lo antes posible.
@@ -164,9 +153,14 @@ const Contact = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                            className={`w-full font-medium py-3 px-4 rounded transition-all duration-300 flex items-center justify-center ${
+                                isSubmitting 
+                                ? 'bg-gray-600 cursor-not-allowed opacity-70' 
+                                : 'bg-green-600 hover:bg-green-700 hover:shadow-[0_0_10px_rgba(0,255,127,0.5)] text-white'
+                            }`}
+                            aria-busy={isSubmitting}
                         >
-                            <span className="mr-2">📤</span>
+                            <span className="mr-2">{isSubmitting ? '⏳' : '📤'}</span>
                             {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
                         </button>
                     </form>

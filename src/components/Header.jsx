@@ -62,10 +62,30 @@ const Header = () => {
     };
 
     return (
-        <header className="fixed inset-0 flex items-end justify-center pb-4 z-50 pointer-events-none">
+        <header className="fixed inset-x-0 top-0 flex flex-col items-end justify-center pt-4 z-50 pointer-events-none">
             <div className="container mx-auto px-4 pointer-events-auto">
-                {/* Menú hamburguesa para móviles */}
-                <div className="md:hidden flex justify-center mb-1">
+                {/* Menú hamburguesa para móviles y menú desplegable */}
+                <div className="md:hidden flex justify-between items-center mb-1">
+                    {/* Menú móvil desplegable */}
+                    {isMenuOpen && (
+                        <ul className="flex flex-row justify-start w-max px-3 py-1 rounded-full bg-black/80 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
+                            {menuItems.map((item) => (
+                                <li key={item.id} className="flex flex-col items-center mx-1.5">
+                                    <button
+                                        onClick={() => handleNavigation(item.id)}
+                                        className="p-1 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <span className="text-white hover:text-green-300 transition-colors">
+                                            {renderIcon(item.icon)}
+                                        </span>
+                                    </button>
+                                    <span className="text-xs mt-0.5 text-green-400">{item.tooltip}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    
+                    {/* Botón hamburguesa o X */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="text-green-400 hover:text-green-300 focus:outline-none transition-colors bg-black/80 p-1.5 rounded-full border border-green-900/30"
@@ -75,7 +95,7 @@ const Header = () => {
                         </svg>
                     </button>
                 </div>
-
+                
                 <nav className="hidden md:block">
                     <ul className="flex justify-center space-x-4 bg-black/80 w-max max-w-xs mx-auto px-4 py-1 rounded-full border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
                         {menuItems.map((item) => (
@@ -101,27 +121,6 @@ const Header = () => {
                     </ul>
                 </nav>
             </div>
-
-            {/* Menú móvil desplegable */}
-            {isMenuOpen && (
-                <div className="md:hidden w-fit mx-auto mt-2 pointer-events-auto">
-                    <ul className="flex justify-around w-max max-w-xs mx-auto px-3 py-1 rounded-full bg-black/80 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
-                        {menuItems.map((item) => (
-                            <li key={item.id} className="flex flex-col items-center mx-1.5">
-                                <button
-                                    onClick={() => handleNavigation(item.id)}
-                                    className="p-1 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
-                                >
-                                    <span className="text-white hover:text-green-300 transition-colors">
-                                        {renderIcon(item.icon)}
-                                    </span>
-                                </button>
-                                <span className="text-xs mt-0.5 text-green-400">{item.tooltip}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </header>
     );
 };

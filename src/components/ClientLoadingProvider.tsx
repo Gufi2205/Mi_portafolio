@@ -42,7 +42,7 @@ export default function ClientLoadingProvider({ children }: ClientLoadingProvide
       
       return () => clearTimeout(timer);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isLoading]); // Añadir isLoading como dependencia
 
   return (

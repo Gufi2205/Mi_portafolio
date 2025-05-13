@@ -1,14 +1,75 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Modal from "./modal"
+
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    projectName: string;
+}
+
+const Modal = ({ isOpen, onClose, projectName }: ModalProps) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-900 p-4 rounded-lg max-w-sm w-full mx-4 border border-green-500/30">
+                <h3 className="text-lg font-bold text-green-400 mb-3">{projectName}</h3>
+                <p className="text-gray-300 mb-4 text-sm">
+                    Lo sentimos, este proyecto no está disponible públicamente en este momento.
+                </p>
+                <button
+                    onClick={onClose}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white py-1.5 px-3 rounded-lg transition-colors text-sm"
+                >
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    );
+};
+
+// Definir interfaces para los tipos
+interface Project {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+    demo: string;
+    github: string;
+    categories: string[];
+}
 
 const Projects = () => {
     const [activeCategory, setActiveCategory] = useState("todos")
     const [modalOpen, setModalOpen] = useState(false)
     const [currentProject, setCurrentProject] = useState("")
+    const [animationDirection, setAnimationDirection] = useState("left")
 
-    const handleProjectLink = (project, linkType) => {
+    // Obtener la dirección de la animación del localStorage
+    useEffect(() => {
+        const direction = localStorage.getItem('animationDirection') || 'left'
+        setAnimationDirection(direction)
+    }, [])
+
+    const getAnimationVariants = () => {
+        return {
+            hidden: { 
+                opacity: 0, 
+                x: animationDirection === "left" ? -100 : 100 
+            },
+            visible: { 
+                opacity: 1, 
+                x: 0,
+                transition: { 
+                    duration: 0.5,
+                    ease: "easeOut"
+                }
+            }
+        }
+    }
+
+    const handleProjectLink = (project: Project, linkType: "demo" | "github") => {
         // Si es el proyecto "De la selva su encanto", mostrar el modal
         if (project.title === "De la selva su encanto") {
             setCurrentProject(project.title)
@@ -26,19 +87,8 @@ const Projects = () => {
     const projects = [
         {
             id: 1,
-            title: "De la selva su encanto",
-            description:
-                "Es un juego tematizado en los mitos de la selva peruana, en el cual shipi el shipibo sobrevive en la noche a los seres míticos.",
-            image: "/img/PANTALLAZO_DEMOSTRATIVO.webp",
-            demo: "",
-            github: "",
-            categories: ["Godot"],
-        },
-        {
-            id: 2,
             title: "FamilyVets",
-            description:
-                "Es una pagina para gestionar citas para una veterinaria para evitar las colas y facilitar tiempos de demora ",
+            description: "",
             image: "/img/family.jpg",
             demo: "https://family-vets.netlify.app/#espec",
             github: "https://github.com/Gufi2205/FamilyVets.git",
@@ -47,7 +97,7 @@ const Projects = () => {
         {
             id: 3,
             title: "InkaChess ",
-            description: "Es un juego de ajedrez controlado dediante la voz.",
+            description: "",
             image: "/img/Inkachess.jpg",
             demo: "https://inkachess.netlify.app/",
             github: "https://github.com/NIKOLLE8/INKA_CHESS.git",
@@ -55,8 +105,8 @@ const Projects = () => {
         },
         {
             id: 4,
-            title: "gufiplay ",
-            description: "Es un programa que te permite descargar canciones en diferentes formatos desde un link de youtube.",
+            title: "Gufiplay ",
+            description: "",
             image: "/img/gufiplay.jpg",
             demo: "https://www.mediafire.com/file/e7juhmasm0oegl4/Descargador.exe/file",
             github: "https://github.com/Gufi2205/gufiplay.git",
@@ -114,16 +164,16 @@ const Projects = () => {
     }
 
     return (
-        <section id="proyectos" className="relative overflow-hidden">
+        <section id="proyectos" className="relative overflow-hidden transform scale-90">
             {/* Modal de proyecto no disponible */}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} projectName={currentProject} />
 
-            <div className="container mx-auto px-4 relative z-10">
+            <div className="container mx-auto px-4 relative z-10 max-w-4xl">
                 <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-3xl font-bold text-center mb-12 text-white relative block w-full mx-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={getAnimationVariants()}
+                    className="text-2xl font-bold text-center mb-10 text-white relative block w-full mx-auto"
                 >
                     <span className="relative z-10 mx-auto block w-fit">Mis Proyectos</span>
                     <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-48 mx-auto"></span>
@@ -132,17 +182,17 @@ const Projects = () => {
 
                 {/* Filtros de categorías */}
                 <motion.div
-                    className="flex flex-wrap justify-center gap-3 mb-12"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
+                    className="flex flex-wrap justify-center gap-2 mb-8"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={getAnimationVariants()}
                     viewport={{ once: true }}
                 >
                     {categories.map((category) => (
                         <motion.button
                             key={category.id}
                             onClick={() => setActiveCategory(category.id)}
-                            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${activeCategory === category.id
+                            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${activeCategory === category.id
                                 ? "bg-green-600 text-white"
                                 : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                                 } border border-green-500/30`}
@@ -161,7 +211,7 @@ const Projects = () => {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeCategory}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
@@ -171,12 +221,12 @@ const Projects = () => {
                             <motion.div
                                 key={project.id}
                                 variants={itemVariants}
-                                className="relative group bg-gray-900 rounded-xl shadow-xl hover:shadow-2xl transition-all border border-gray-800 hover:border-green-400"
+                                className="relative group bg-gray-900 rounded-lg shadow-md hover:shadow-xl transition-all border border-gray-800 hover:border-green-400"
                             >
                                 <div className="absolute inset-0 bg-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                                 {/* Imagen del proyecto */}
-                                <div className="h-48 overflow-hidden rounded-t-xl relative">
+                                <div className="h-36 overflow-hidden rounded-t-lg relative">
                                     <motion.img
                                         src={project.image}
                                         alt={project.title}
@@ -184,24 +234,24 @@ const Projects = () => {
                                         initial={{ scale: 1 }}
                                         whileHover={{ scale: 1.05 }}
                                         transition={{ duration: 0.3 }}
-                                        onError={(e) => {
-                                            e.target.src = `https://via.placeholder.com/600x300/1f2937/ffffff?text=${project.title}`
+                                        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.src = `https://via.placeholder.com/600x300/1f2937/ffffff?text=${project.title}`;
                                         }}
                                     />
                                     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
 
                                 {/* Contenido de la tarjeta */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-3 text-gray-100">{project.title}</h3>
-                                    <p className="text-gray-400 mb-4">{project.description}</p>
-
+                                <div className="p-4">
+                                    <h3 className="text-base font-bold mb-2 text-gray-100">{project.title}</h3>
+                                    
                                     {/* Categorías */}
-                                    <div className="flex flex-wrap gap-2 mb-4">
+                                    <div className="flex flex-wrap gap-1.5 mb-3">
                                         {project.categories.map((category, index) => (
                                             <span
                                                 key={index}
-                                                className="px-3 py-1 bg-gray-800 rounded-full text-sm text-green-300 border border-green-500/20"
+                                                className="px-2 py-0.5 bg-gray-800 rounded-full text-xs text-green-300 border border-green-500/20"
                                             >
                                                 {category}
                                             </span>
@@ -209,10 +259,10 @@ const Projects = () => {
                                     </div>
 
                                     {/* Botones */}
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-2">
                                         <motion.button
                                             onClick={() => handleProjectLink(project, "demo")}
-                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-center transition-all relative overflow-hidden"
+                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-1.5 px-3 rounded text-xs text-center transition-all relative overflow-hidden"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
@@ -221,7 +271,7 @@ const Projects = () => {
                                         </motion.button>
                                         <motion.button
                                             onClick={() => handleProjectLink(project, "github")}
-                                            className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 px-4 rounded-lg text-center transition-all border border-gray-700 relative overflow-hidden"
+                                            className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-1.5 px-3 rounded text-xs text-center transition-all border border-gray-700 relative overflow-hidden"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >

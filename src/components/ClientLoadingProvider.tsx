@@ -17,10 +17,10 @@ function NavigationStateHandler({ onNavigate, isLoading }: { onNavigate: (value:
   useEffect(() => {
     if (!isLoading) {
       onNavigate(true);
-      // Tiempo muy corto para transiciones entre páginas
+      // Reducir aún más el tiempo de transición entre páginas
       const timer = setTimeout(() => {
         onNavigate(false);
-      }, 100);
+      }, 50); // Reducido de 100ms a 50ms
       
       return () => clearTimeout(timer);
     }
@@ -34,23 +34,21 @@ export default function ClientLoadingProvider({ children }: ClientLoadingProvide
   const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
-    // Mostrar pantalla de carga solo en la carga inicial
     if (isLoading) {
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 300); // Reducir a 300ms para una experiencia más rápida
+      }, 200); // Reducido de 300ms a 200ms
       
       return () => clearTimeout(timer);
     }
-
-  }, [isLoading]); // Añadir isLoading como dependencia
+  }, [isLoading]);
 
   return (
     <>
       {isLoading && <LoadingScreen />}
       {isNavigating && (
         <div className="fixed top-0 left-0 w-full h-1 bg-black z-50">
-          <div className="h-full bg-green-400 animate-[loading_0.5s_ease-in-out_infinite]"></div>
+          <div className="h-full bg-green-400 animate-[loading_0.3s_ease-in-out_infinite]"></div>
         </div>
       )}
       <Suspense fallback={null}>

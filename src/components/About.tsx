@@ -1,8 +1,36 @@
 // Eliminar los elementos de fondo neón
 "use client"
 import { motion } from "framer-motion"
+import Image from "next/image"
+import { useState, useEffect } from "react"
 
 const About = () => {
+    const [imgSrc, setImgSrc] = useState("/img/perfil.jpg");
+    const [animationDirection, setAnimationDirection] = useState("left")
+    
+    useEffect(() => {
+        // Obtener la dirección de la animación del localStorage
+        const direction = localStorage.getItem('animationDirection') || 'left'
+        setAnimationDirection(direction)
+    }, [])
+
+    const getAnimationVariants = () => {
+        return {
+            hidden: { 
+                opacity: 0, 
+                x: animationDirection === "left" ? -100 : 100 
+            },
+            visible: { 
+                opacity: 1, 
+                x: 0,
+                transition: { 
+                    duration: 0.5,
+                    ease: "easeOut"
+                }
+            }
+        }
+    }
+    
     // Función para manejar la descarga del CV
     const handleDownloadCV = () => {
         const fileUrl = "/CV - Julio Perez.pdf" // Asegúrate de que el archivo esté en la carpeta public
@@ -16,57 +44,64 @@ const About = () => {
         link.click()
         document.body.removeChild(link)
     }
+    
+    // Función para manejar la visualización de certificados
+    const handleCertificates = () => {
+        // Redirigir al perfil de Credly
+        window.open("https://www.credly.com/users/julio-felipe-p-rez-y-ez", "_blank");
+    }
 
     return (
-        <section id="sobre-mi" className="relative overflow-hidden">
-            <div className="container mx-auto px-4 relative z-10">
+        <section id="sobre-mi" className="relative overflow-hidden transform scale-90">
+            <div className="container mx-auto px-4 relative z-10 max-w-4xl">
                 <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-3xl font-bold text-center mb-16 text-white relative block w-full mx-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={getAnimationVariants()}
+                    className="text-2xl font-bold text-center mb-10 text-white relative block w-full mx-auto"
                 >
                     <span className="relative z-10 mx-auto block w-fit">Sobre Mí</span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-32 mx-auto"></span>
-                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-32 mx-auto"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400 w-48 mx-auto"></span>
+                    <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-48 mx-auto"></span>
                 </motion.h2>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="flex flex-col md:flex-row items-center"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={getAnimationVariants()}
+                    className="flex flex-col md:flex-row items-center justify-center"
                 >
-                    <div className="md:w-1/3 mb-12 md:mb-0 flex justify-center">
+                    <div className="md:w-1/3 mb-6 md:mb-0 flex justify-center">
                         <div className="relative group">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-green-600 opacity-70 blur-md group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="rounded-full overflow-hidden w-64 h-64 border-2 border-green-500 shadow-xl relative z-10 group-hover:border-green-400 transition-colors duration-300">
-                                <img
-                                    src="/img/perfil.jpg"
+                            <div className="rounded-full overflow-hidden w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 border-2 border-green-500 shadow-xl relative z-10 group-hover:border-green-400 transition-colors duration-300">
+                                <Image
+                                    src={imgSrc}
                                     alt="Julio Pérez"
+                                    width={256}
+                                    height={256}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                        e.target.src = "https://via.placeholder.com/300"
-                                    }}
+                                    priority
+                                    onError={() => setImgSrc("https://via.placeholder.com/300")}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div className="md:w-2/3 md:pl-12">
-                        <p className="text-lg leading-relaxed mb-8 text-gray-300 text-justify">
+                    <div className="md:w-2/3 md:pl-12 max-h-[60vh] overflow-y-auto pr-2">
+                        <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 text-gray-300 text-justify">
                             Ingeniero de software con experiencia en desarrollo web utilizando React, Next.js y Tailwind CSS, así como
                             en soluciones en la nube con Google Cloud Platform. Especialista en automatización de procesos con Python,
                             optimizando flujos de trabajo y mejorando la eficiencia operativa. Apasionado por crear soluciones
                             innovadoras, escalables y de alto impacto, siempre en busca de nuevos retos y tecnologías emergentes.
                         </p>
 
-                        <div className="flex flex-wrap gap-4 mt-8">
+                        <div className="flex flex-wrap gap-3 mt-4 md:mt-6">
                             <a
                                 href="https://github.com/Gufi2205"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
+                                className="group relative px-4 py-2 md:px-6 md:py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
                             >
                                 <div className="absolute inset-0 w-0 bg-green-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400"></div>
@@ -84,21 +119,15 @@ const About = () => {
                                 </div>
                             </a>
                             <a
-                                href="https://www.linkedin.com/in/julio-p%C3%A9rez-b687261a0" // URL corregida
+                                href="https://www.linkedin.com/in/julio-p%C3%A9rez-b687261a0"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
+                                className="group relative px-4 py-2 md:px-6 md:py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
                             >
-                                {/* Efecto de fondo al hacer hover */}
                                 <div className="absolute inset-0 w-0 bg-green-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
-
-                                {/* Línea decorativa inferior */}
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400"></div>
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></div>
-
-                                {/* Contenido del botón */}
                                 <div className="relative flex items-center">
-                                    {/* Icono de LinkedIn */}
                                     <svg
                                         className="w-5 h-5 mr-2 text-green-400 group-hover:text-green-300 transition-colors"
                                         fill="currentColor"
@@ -107,14 +136,12 @@ const About = () => {
                                     >
                                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                                     </svg>
-
-                                    {/* Texto del botón */}
                                     <span className="group-hover:text-green-300 transition-colors">LinkedIn</span>
                                 </div>
                             </a>
                             <button
                                 onClick={handleDownloadCV}
-                                className="group relative px-6 py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
+                                className="group relative px-4 py-2 md:px-6 md:py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
                             >
                                 <div className="absolute inset-0 w-0 bg-green-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400"></div>
@@ -135,6 +162,31 @@ const About = () => {
                                         />
                                     </svg>
                                     <span className="group-hover:text-green-300 transition-colors">Descargar CV</span>
+                                </div>
+                            </button>
+                            <button
+                                onClick={handleCertificates}
+                                className="group relative px-4 py-2 md:px-6 md:py-3 overflow-hidden rounded-lg bg-black border border-green-500 text-white transition-all duration-300"
+                            >
+                                <div className="absolute inset-0 w-0 bg-green-500 transition-all duration-300 group-hover:w-full opacity-20"></div>
+                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400"></div>
+                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm"></div>
+                                <div className="relative flex items-center">
+                                    <svg
+                                        className="w-5 h-5 mr-2 text-green-400 group-hover:text-green-300 transition-colors"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                    <span className="group-hover:text-green-300 transition-colors">Certificados</span>
                                 </div>
                             </button>
                         </div>

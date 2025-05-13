@@ -1,36 +1,80 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+
+// Definir interfaces para los tipos
+interface MenuItem {
+    id: string;
+    icon: string;
+    tooltip: string;
+}
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [activeTooltip, setActiveTooltip] = useState(null);
+    const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
     const router = useRouter();
 
     // Definir menuItems antes de usarlo en useEffect
-    const menuItems = [
+    const menuItems: MenuItem[] = [
         { id: 'sobre_mi', icon: 'user', tooltip: 'Sobre Mí' },
         { id: 'habilidades', icon: 'code', tooltip: 'Habilidades' },
         { id: 'proyectos', icon: 'folder', tooltip: 'Proyectos' },
         { id: 'contacto', icon: 'envelope', tooltip: 'Contacto' }
     ];
 
-    // Precargar todas las páginas al cargar el componente
+    // Precargar todas las páginas de forma más eficiente
     useEffect(() => {
-        menuItems.forEach(item => {
-            router.prefetch(`/${item.id}`);
-        });
+        // Precargar inmediatamente las páginas más importantes
+        const preloadImportantPages = async () => {
+            // Primero precargamos la página de inicio y sobre_mi que son las más visitadas
+            await router.prefetch('/sobre_mi');
+            
+            // Luego precargamos el resto con un pequeño retraso para no bloquear el renderizado
+            setTimeout(() => {
+                menuItems.forEach(item => {
+                    if (item.id !== 'sobre_mi') {
+                        router.prefetch(`/${item.id}`);
+                    }
+                });
+            }, 100);
+        };
+        
+        preloadImportantPages();
     }, [router, menuItems]);
 
-    const handleNavigation = (item) => {
+    // Optimizar la función de navegación con useCallback para evitar recreaciones
+    const handleNavigation = useCallback((item: string, event?: React.MouseEvent<HTMLButtonElement>) => {
         setIsMenuOpen(false);
-        // Ya no es necesario prefetch aquí porque lo hacemos al cargar
-        router.push(`/${item}`);
-    };
+        
+        // Determinar la posición del botón clickeado
+        const buttonPosition = event?.currentTarget?.getAttribute('data-position') || 'left';
+        
+        // Guardar la dirección de la animación en localStorage
+        localStorage.setItem('animationDirection', buttonPosition);
+        
+        // Navegar a la página con un pequeño timeout para permitir que la UI se actualice primero
+        setTimeout(() => {
+            router.push(`/${item}`);
+        }, 10);
+    }, [router]);
 
-    const renderIcon = (iconName) => {
+    // Cerrar el menú al hacer clic fuera de él
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (isMenuOpen && !target.closest('.mobile-menu-container')) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [isMenuOpen]);
+
+    const renderIcon = (iconName: string) => {
         switch (iconName) {
             case 'user':
                 return (
@@ -62,49 +106,58 @@ const Header = () => {
     };
 
     return (
-        <header className="fixed inset-x-0 top-0 flex flex-col items-end justify-center pt-4 z-50 pointer-events-none">
+        <header className="fixed inset-x-0 bottom-0 flex flex-col items-end justify-center pb-4 z-50 pointer-events-none">
             <div className="container mx-auto px-4 pointer-events-auto">
                 {/* Menú hamburguesa para móviles y menú desplegable */}
-                <div className="md:hidden flex justify-between items-center mb-1">
+                <div className="md:hidden flex justify-end items-center mb-1 mobile-menu-container">
                     {/* Menú móvil desplegable */}
                     {isMenuOpen && (
-                        <ul className="flex flex-row justify-start w-max px-3 py-1 rounded-full bg-black/80 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
-                            {menuItems.map((item) => (
-                                <li key={item.id} className="flex flex-col items-center mx-1.5">
+                        <ul className="absolute bottom-12 right-4 flex flex-col space-y-2 p-3 rounded-lg bg-black/90 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
+                            {menuItems.map((item, index) => (
+                                <li key={item.id} className="flex items-center justify-between">
+                                    <span className="text-sm text-green-400 mr-3">{item.tooltip}</span>
                                     <button
-                                        onClick={() => handleNavigation(item.id)}
-                                        className="p-1 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
+                                        onClick={(e) => handleNavigation(item.id, e)}
+                                        data-position={index < menuItems.length / 2 ? "left" : "right"}
+                                        className="p-2 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
                                     >
                                         <span className="text-white hover:text-green-300 transition-colors">
                                             {renderIcon(item.icon)}
                                         </span>
                                     </button>
-                                    <span className="text-xs mt-0.5 text-green-400">{item.tooltip}</span>
                                 </li>
                             ))}
                         </ul>
                     )}
-                    
+
                     {/* Botón hamburguesa o X */}
                     <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="text-green-400 hover:text-green-300 focus:outline-none transition-colors bg-black/80 p-1.5 rounded-full border border-green-900/30"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMenuOpen(!isMenuOpen);
+                        }}
+                        className="text-green-400 hover:text-green-300 focus:outline-none transition-colors bg-black/80 p-2 rounded-full border border-green-900/30 shadow-[0_0_5px_2px_rgba(0,255,127,0.3)]"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                         </svg>
                     </button>
                 </div>
-                
+
                 <nav className="hidden md:block">
                     <ul className="flex justify-center space-x-4 bg-black/80 w-max max-w-xs mx-auto px-4 py-1 rounded-full border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
-                        {menuItems.map((item) => (
+                        {menuItems.map((item, index) => (
                             <li key={item.id} className="relative">
                                 <button
-                                    onClick={() => handleNavigation(item.id)}
+                                    onClick={(e) => handleNavigation(item.id, e)}
                                     onMouseEnter={() => setActiveTooltip(item.id)}
                                     onMouseLeave={() => setActiveTooltip(null)}
+                                    onMouseOver={() => {
+                                        // Precargar la página al pasar el mouse por encima
+                                        router.prefetch(`/${item.id}`);
+                                    }}
                                     className="relative group p-1 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
+                                    data-position={index < menuItems.length / 2 ? "left" : "right"}
                                 >
                                     <span className="text-white group-hover:text-green-400 transition-colors">
                                         {renderIcon(item.icon)}

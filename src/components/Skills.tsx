@@ -11,11 +11,8 @@ interface Skill {
 
 const Skills = () => {
     const [animationDirection, setAnimationDirection] = useState("left")
-    const [activeSection, setActiveSection] = useState(0)
-    const sections = ["Frontend", "Backend", "Herramientas"]
 
     useEffect(() => {
-        // Obtener la dirección de la animación del localStorage
         const direction = localStorage.getItem('animationDirection') || 'left'
         setAnimationDirection(direction)
     }, [])
@@ -168,56 +165,28 @@ const Skills = () => {
                     <span className="absolute -bottom-1 left-0 right-0 h-1 bg-green-400 opacity-50 blur-sm w-48 mx-auto"></span>
                 </motion.h2>
                 
-                {/* Navegación del carrusel */}
-                <div className="flex justify-center items-center mb-8 gap-4">
-                    <button 
-                        onClick={prevSection}
-                        className="p-2 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors border border-green-500/30"
-                    >
-                        <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    
-                    <motion.h3
-                        key={sections[activeSection]}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="text-xl font-semibold text-center text-green-400 w-40"
-                    >
-                        <span className="relative mx-auto block w-fit">{sections[activeSection]}</span>
-                    </motion.h3>
-                    
-                    <button 
-                        onClick={nextSection}
-                        className="p-2 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors border border-green-500/30"
-                    >
-                        <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                {/* Sección Frontend */}
+                <div className="mb-12">
+                    <h3 className="text-xl font-semibold text-center text-green-400 mb-6">Frontend</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        {renderSkillCards(frontendSkills)}
+                    </div>
                 </div>
-                
-                {/* Indicadores de sección */}
-                <div className="flex justify-center gap-2 mb-6">
-                    {sections.map((section, index) => (
-                        <button
-                            key={section}
-                            onClick={() => setActiveSection(index)}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                activeSection === index 
-                                    ? "bg-green-400 w-6" 
-                                    : "bg-gray-600 hover:bg-green-600"
-                            }`}
-                            aria-label={`Ver sección ${section}`}
-                        />
-                    ))}
+
+                {/* Sección Backend */}
+                <div className="mb-12">
+                    <h3 className="text-xl font-semibold text-center text-green-400 mb-6">Backend</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        {renderSkillCards(backendSkills)}
+                    </div>
                 </div>
-                
-                {/* Contenido del carrusel */}
-                <div className="min-h-[300px] flex items-center justify-center">
-                    {renderActiveSection()}
+
+                {/* Sección Herramientas */}
+                <div className="mb-12">
+                    <h3 className="text-xl font-semibold text-center text-green-400 mb-6">Herramientas</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                        {renderSkillCards(toolsSkills)}
+                    </div>
                 </div>
             </div>
         </section>

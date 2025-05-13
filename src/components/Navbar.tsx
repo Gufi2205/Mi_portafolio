@@ -59,21 +59,6 @@ const Header = () => {
         }, 10);
     }, [router]);
 
-    // Cerrar el menú al hacer clic fuera de él
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as HTMLElement;
-            if (isMenuOpen && !target.closest('.mobile-menu-container')) {
-                setIsMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, [isMenuOpen]);
-
     const renderIcon = (iconName: string) => {
         switch (iconName) {
             case 'user':
@@ -109,22 +94,22 @@ const Header = () => {
         <header className="fixed inset-x-0 bottom-0 flex flex-col items-end justify-center pb-4 z-50 pointer-events-none">
             <div className="container mx-auto px-4 pointer-events-auto">
                 {/* Menú hamburguesa para móviles y menú desplegable */}
-                <div className="md:hidden flex justify-end items-center mb-1 mobile-menu-container">
+                <div className="md:hidden flex justify-between items-center mb-1">
                     {/* Menú móvil desplegable */}
                     {isMenuOpen && (
-                        <ul className="absolute bottom-12 right-4 flex flex-col space-y-2 p-3 rounded-lg bg-black/90 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
+                        <ul className="flex flex-row justify-start w-max px-3 py-1 rounded-full bg-black/80 border border-green-900/30 shadow-[0_0_10px_3px_rgba(0,255,127,0.3)]">
                             {menuItems.map((item, index) => (
-                                <li key={item.id} className="flex items-center justify-between">
-                                    <span className="text-sm text-green-400 mr-3">{item.tooltip}</span>
+                                <li key={item.id} className="flex flex-col items-center mx-1.5">
                                     <button
                                         onClick={(e) => handleNavigation(item.id, e)}
                                         data-position={index < menuItems.length / 2 ? "left" : "right"}
-                                        className="p-2 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
+                                        className="p-1 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
                                     >
                                         <span className="text-white hover:text-green-300 transition-colors">
                                             {renderIcon(item.icon)}
                                         </span>
                                     </button>
+                                    <span className="text-xs mt-0.5 text-green-400">{item.tooltip}</span>
                                 </li>
                             ))}
                         </ul>
@@ -132,11 +117,8 @@ const Header = () => {
 
                     {/* Botón hamburguesa o X */}
                     <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsMenuOpen(!isMenuOpen);
-                        }}
-                        className="text-green-400 hover:text-green-300 focus:outline-none transition-colors bg-black/80 p-2 rounded-full border border-green-900/30 shadow-[0_0_5px_2px_rgba(0,255,127,0.3)]"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="text-green-400 hover:text-green-300 focus:outline-none transition-colors bg-black/80 p-1.5 rounded-full border border-green-900/30"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />

@@ -1,14 +1,27 @@
 
-import About from "@/components/About"
+"use client"
 
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const About = dynamic(() => import('@/components/About'), {
+  loading: () => <div className="flex justify-center items-center h-screen w-full">
+    <div className="w-8 h-8 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+})
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-x-hidden">
-
-      {/* Sección de Acerca de */}
-      <About />
-
+    <main className="min-h-screen relative overflow-x-hidden flex items-center justify-center w-full pb-16 md:pb-0">
+      <div className="mx-auto">
+        <Suspense fallback={
+          <div className="flex justify-center items-center h-screen w-full">
+            <div className="w-8 h-8 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        }>
+          <About />
+        </Suspense>
+      </div>
     </main>
   )
 }

@@ -115,13 +115,15 @@ const Header = () => {
                                         <button
                                             onClick={(e) => handleNavigation(item.id, e)}
                                             data-position={index < menuItems.length / 2 ? "left" : "right"}
-                                            className="p-1.5 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center"
+                                            className="p-1.5 rounded-full bg-black/50 hover:bg-green-900/30 transition-colors flex items-center justify-center gap-2 w-full"
                                         >
                                             <span className="text-white hover:text-green-300 transition-colors">
                                                 {renderIcon(item.icon)}
                                             </span>
+                                            <span className="text-sm text-green-400 hover:text-green-300 transition-colors">
+                                                {item.tooltip}
+                                            </span>
                                         </button>
-                                        <span className="text-sm text-green-400">{item.tooltip}</span>
                                     </li>
                                 ))}
                             </ul>

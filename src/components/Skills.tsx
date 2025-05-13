@@ -66,14 +66,6 @@ const Skills = () => {
         { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" },
     ]
 
-    const nextSection = () => {
-        setActiveSection((prev) => (prev === sections.length - 1 ? 0 : prev + 1));
-    };
-
-    const prevSection = () => {
-        setActiveSection((prev) => (prev === 0 ? sections.length - 1 : prev - 1));
-    };
-
     const renderSkillCards = (skills: Skill[]) => {
         return skills.map((skill, index) => (
             <motion.div
@@ -98,58 +90,6 @@ const Skills = () => {
             </motion.div>
         ))
     }
-
-    const renderActiveSection = () => {
-        switch (activeSection) {
-            case 0:
-                return (
-                    <motion.div
-                        key="frontend"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full"
-                    >
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                            {renderSkillCards(frontendSkills)}
-                        </div>
-                    </motion.div>
-                );
-            case 1:
-                return (
-                    <motion.div
-                        key="backend"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full"
-                    >
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                            {renderSkillCards(backendSkills)}
-                        </div>
-                    </motion.div>
-                );
-            case 2:
-                return (
-                    <motion.div
-                        key="tools"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full"
-                    >
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                            {renderSkillCards(toolsSkills)}
-                        </div>
-                    </motion.div>
-                );
-            default:
-                return null;
-        }
-    };
 
     return (
         <section id="habilidades" className="relative overflow-hidden transform scale-90">
